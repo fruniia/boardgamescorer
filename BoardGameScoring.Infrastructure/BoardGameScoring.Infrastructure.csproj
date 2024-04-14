@@ -10,4 +10,12 @@
     <ProjectReference Include="..\BoardGameScoring.Application\BoardGameScoring.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
+  </ItemGroup>
+
 </Project>
