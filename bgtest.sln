@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardGameScoring.Applicatio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardGameScoring.Infrastructure", "BoardGameScoring.Infrastructure\BoardGameScoring.Infrastructure.csproj", "{420FBBC6-67FD-4E8C-9DC5-4AF4C9ECDCBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardGameScoring.WebUI.Server", "BoardGameScoring.WebUI.Server\BoardGameScoring.WebUI.Server.csproj", "{1A08CCD4-51C5-4F00-90BF-E17C706619A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardGameScoring.WebUI.Server", "BoardGameScoring.WebUI.Server\BoardGameScoring.WebUI.Server.csproj", "{1A08CCD4-51C5-4F00-90BF-E17C706619A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
