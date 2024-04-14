@@ -1,8 +1,7 @@
 ﻿namespace BoardGameScoring.Domain.Entities;
-internal class Score
+public class Score : BaseEntity
 {
-    public int Id { get; set; }
-    public int PlayerId { get; set; }
-    public int GameId { get; set; }
-    public DateTime Date { get; set; }
+	public int PlayerId { get; set; }
+	public int GameId { get; set; }
+	public DateTime Date { get; set; }
 }

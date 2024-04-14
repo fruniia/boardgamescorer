@@ -1,6 +1,5 @@
 ﻿namespace BoardGameScoring.Domain.Entities;
-internal class Player
+public class Player : BaseAuditInfo
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
+	public required string Name { get; set; }
 }
