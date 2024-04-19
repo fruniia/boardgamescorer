@@ -1,4 +1,4 @@
-# BoardGameScoring
+# Board Game Scorer
 
 ## Description
 Instead of get pen, paper and calculator, this application will do the job
