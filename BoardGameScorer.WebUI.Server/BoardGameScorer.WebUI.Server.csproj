@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BoardGameScoring.Infrastructure\BoardGameScoring.Infrastructure.csproj" />
+    <ProjectReference Include="..\BoardGameScorer.Infrastructure\BoardGameScorer.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

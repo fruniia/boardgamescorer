@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BoardGameScoring.Domain\BoardGameScoring.Domain.csproj" />
+    <ProjectReference Include="..\BoardGameScorer.Domain\BoardGameScorer.Domain.csproj" />
   </ItemGroup>
 
 </Project>

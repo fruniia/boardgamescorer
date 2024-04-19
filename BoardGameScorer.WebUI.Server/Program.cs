@@ -1,4 +1,4 @@
-using BoardGameScoring.WebUI.Server.Components;
+using BoardGameScorer.WebUI.Server.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
