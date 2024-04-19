@@ -1,0 +1,1 @@
+﻿global using BoardGameScorer.Domain.Interfaces;
