@@ -1,7 +1,7 @@
-using BoardGameScoring.Domain.Entities;
+using BoardGameScorer.Domain.Entities;
 using Microsoft.AspNetCore.Components;
 
-namespace BoardGameScoring.WebUI.Server.Components.Pages;
+namespace BoardGameScorer.WebUI.Server.Components.Pages;
 public partial class GameListBase : ComponentBase
 {
 	public IEnumerable<Game>? Games { get; set; }
