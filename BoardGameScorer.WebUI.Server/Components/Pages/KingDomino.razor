@@ -1,0 +1,57 @@
+﻿@page "/kingdomino"
+@using BoardGameScorer.Domain.Enums
+<h3>KingDomino</h3>
+
+<EditForm EditContext="@EditContext" FormName="myForm">
+	<DataAnnotationsValidator />
+	<div class="form-group mb-3">
+		<label class="form-label" for="terrain">Choose terrain</label>
+		<InputSelect class="form-select" @bind-Value="@gameScore.Terrain">
+			@foreach(var terrain in Enum.GetValues(typeof(Terrain)))
+			{
+				switch (terrain)
+				{
+					case Terrain.Castle:
+						break;
+					default:
+						<option value="@terrain">@terrain</option>
+						break;
+				}
+			}
+		</InputSelect>
+		<ValidationMessage For="@(() => gameScore.Terrain)" />
+	</div>
+
+	<div class="form-group mb-3">
+		<label class="form-label" for="tiles">How many tiles?</label>
+		<NumberInput TValue="int" @bind-Value="gameScore.Tiles" Placeholder="Enter tiles"></NumberInput>
+		<ValidationMessage For="@(() => gameScore.Tiles)"/>
+	</div>
+
+	<div class="form-group mb-3">
+		<label class="form-label" for="crown">How many crowns?</label>
+		<InputSelect class="form-select" @bind-Value="@gameScore.Crown">
+			@foreach (var crown in Enum.GetValues(typeof(Crown)))
+			{
+				<option value="@crown">@crown</option>
+			}
+		</InputSelect>
+		<ValidationMessage For="@(() => gameScore.Crown)" />
+	</div>
+
+	<div class="form-group mb-3">
+		<label class="form-label" for="tileWithCrown">How many tiles with crown?</label>
+		<InputSelect class="form-select" @bind-Value="@gameScore.TileWithCrown">
+			@foreach (var tileWithCrown in Enum.GetValues(typeof(TileWithCrown)))
+			{
+				<option value="@tileWithCrown">@tileWithCrown</option>
+			}
+		</InputSelect>
+		<ValidationMessage For="@(() => gameScore.TileWithCrown)" />
+	</div>
+
+	<Button Type="ButtonType.Submit" Color="ButtonColor.Light">
+		Confirm
+	</Button>
+</EditForm>
+
