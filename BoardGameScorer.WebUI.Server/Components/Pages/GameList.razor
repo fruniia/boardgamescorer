@@ -15,11 +15,7 @@ else
 				<CardHeader>@game.Name</CardHeader>
 				<CardText>@game.Description</CardText>
 				<CardFooter>
-
-					<Button Color="ButtonColor.Info" To="#" Type="ButtonType.Link" Outline="true" Size="Size.Small">Calculate score</Button>
-					<Button Color="ButtonColor.Info" To="#" Type="ButtonType.Link" Outline="true" Size="Size.Small">View</Button>
-					<Button Color="ButtonColor.Info" To="#" Type="ButtonType.Link" Outline="true" Size="Size.Small" n>Edit</Button>
-					<Button Color="ButtonColor.Info" To="#" Type="ButtonType.Link" Outline="true" Size="Size.Small">Delete</Button>
+					<Button Color="ButtonColor.Info" To="@game.Name.Replace(' ', '_')" Type="ButtonType.Link" Outline="true" Size="Size.Small">Calculate score</Button>
 				</CardFooter>
 			</CardBody>
 		}
