@@ -1,5 +1,5 @@
 namespace BoardGameScorer.WebUI.Server.Components.Pages;
-public partial class GameListBase : ComponentBase
+public partial class GameList
 {
 	public IEnumerable<Game>? Games { get; set; }
 	protected async override Task OnInitializedAsync()
