@@ -1,6 +1,6 @@
 ---
 name: Issue template
-about: Please enter descripton of the ssue
+about: Please enter descripton of the issue
 title: ''
 labels: ''
 assignees: ''
