@@ -7,11 +7,11 @@ assignees: ''
 
 ---
 
-:bug: **Describe the bug**
+:bug: **Describe the bug**\
 A clear and concise description of what the bug is.
 
-**Expected behavior**
+**Expected behavior**\
 What did not happen and when?
 
-**Additional context**
+**Additional context**\
 Add any other context about the problem here.
