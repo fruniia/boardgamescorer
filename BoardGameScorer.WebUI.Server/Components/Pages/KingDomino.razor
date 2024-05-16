@@ -1,53 +1,53 @@
 ﻿@page "/kingdomino"
-@using BoardGameScorer.Domain.Enums
+@rendermode InteractiveServer
+<PageTitle>KingDomino ScoreCalculator</PageTitle>
 <h3>KingDomino</h3>
-
-<EditForm EditContext="@EditContext" FormName="myForm">
+<h6>Fill in your score below</h6>
+<EditForm EditContext="_editContext" FormName="myForm" OnValidSubmit="HandleSubmit">
 	<DataAnnotationsValidator />
+	<ValidationSummary />
 	<div class="form-group mb-3">
-		<label class="form-label" for="terrain">Choose terrain</label>
-		<InputSelect class="form-select" @bind-Value="@gameScore.Terrain">
-			@foreach(var terrain in Enum.GetValues(typeof(Terrain)))
+		<InputSelect id="terrain" class="form-select" @bind-Value=Model!.Terrain>
+			@if(Model!.Terrain is null)
 			{
-				switch (terrain)
+				<option selected value="">--Select Terrain--</option>
+			}
+			else
+			{
+				<option value=""></option>
+			}
+			@foreach (var terrain in Terrains)
+			{
+				if (terrain == "Castle")
 				{
-					case Terrain.Castle:
-						break;
-					default:
-						<option value="@terrain">@terrain</option>
-						break;
+					<option hidden>--Select Terrain--</option>
+				}
+				else
+				{
+					<option value="@terrain">@terrain</option>
 				}
 			}
 		</InputSelect>
-		<ValidationMessage For="@(() => gameScore.Terrain)" />
+		<ValidationMessage For="@(() => @Model.Terrain)" />
 	</div>
 
 	<div class="form-group mb-3">
 		<label class="form-label" for="tiles">How many tiles?</label>
-		<NumberInput TValue="int" @bind-Value="gameScore.Tiles" Placeholder="Enter tiles"></NumberInput>
-		<ValidationMessage For="@(() => gameScore.Tiles)"/>
+		<NumberInput TValue="int" id="tiles" @bind-Value=Model.Tiles EnableMinMax="true" Min="1" Max="24" Placeholder="Enter number of tiles"></NumberInput>
+		<ValidationMessage For="@(() => Model.Tiles)" />
 	</div>
 
 	<div class="form-group mb-3">
 		<label class="form-label" for="crown">How many crowns?</label>
-		<InputSelect class="form-select" @bind-Value="@gameScore.Crown">
-			@foreach (var crown in Enum.GetValues(typeof(Crown)))
+		<InputSelect id="crown" class="form-select" @bind-Value=Model.Crowns>
+
+			@foreach (var crown in Crowns)
 			{
 				<option value="@crown">@crown</option>
 			}
-		</InputSelect>
-		<ValidationMessage For="@(() => gameScore.Crown)" />
-	</div>
 
-	<div class="form-group mb-3">
-		<label class="form-label" for="tileWithCrown">How many tiles with crown?</label>
-		<InputSelect class="form-select" @bind-Value="@gameScore.TileWithCrown">
-			@foreach (var tileWithCrown in Enum.GetValues(typeof(TileWithCrown)))
-			{
-				<option value="@tileWithCrown">@tileWithCrown</option>
-			}
 		</InputSelect>
-		<ValidationMessage For="@(() => gameScore.TileWithCrown)" />
+		<ValidationMessage For="@(() => Model!.Crowns)" />
 	</div>
 
 	<Button Type="ButtonType.Submit" Color="ButtonColor.Light">
@@ -55,3 +55,29 @@
 	</Button>
 </EditForm>
 
+
+@if (registration.Count > 0)
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col"></th>
+				<th scope="col">Terrain</th>
+				<th scope="col">No of tiles</th>
+				<th scope="col">No of crowns</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			@foreach (var game in registration)
+			{
+				<tr>
+					<th scope="row"></th>
+					<td>@game.Terrain</td>
+					<td>@game.Tiles</td>
+					<td>@game.Crowns</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
