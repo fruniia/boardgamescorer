@@ -18,7 +18,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseStatusCodePagesWithRedirects("/StatusCode/{0}");
 app.UseStaticFiles();
 app.UseAntiforgery();
 
