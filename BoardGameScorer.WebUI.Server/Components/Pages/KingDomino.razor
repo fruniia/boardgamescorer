@@ -1,8 +1,7 @@
 ﻿@page "/kingdomino"
+@layout KingDominoLayout
 @rendermode InteractiveServer
-<PageTitle>KingDomino ScoreCalculator</PageTitle>
-<h3>KingDomino</h3>
-<h6>Fill in your score below</h6>
+
 <EditForm EditContext="_editContext" FormName="myForm" OnValidSubmit="HandleSubmit">
 	<DataAnnotationsValidator />
 	<ValidationSummary />
@@ -58,26 +57,5 @@
 
 @if (registration.Count > 0)
 {
-	<table class="table">
-		<thead>
-			<tr>
-				<th scope="col"></th>
-				<th scope="col">Terrain</th>
-				<th scope="col">No of tiles</th>
-				<th scope="col">No of crowns</th>
-			</tr>
-		</thead>
-		<tbody>
-
-			@foreach (var game in registration)
-			{
-				<tr>
-					<th scope="row"></th>
-					<td>@game.Terrain</td>
-					<td>@game.Tiles</td>
-					<td>@game.Crowns</td>
-				</tr>
-			}
-		</tbody>
-	</table>
+	<ScoreInputDisplay Registration="registration"></ScoreInputDisplay>
 }
