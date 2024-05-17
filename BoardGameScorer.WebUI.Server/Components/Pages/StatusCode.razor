@@ -1,10 +1,9 @@
 ﻿@page "/StatusCode/{responseCode}"
 @inject NavigationManager NavigationManager
+@inherits MainLayout
 <PageTitle>StatusCode @ResponseCode</PageTitle>
 <div class="m-2">
-
-<Alert Color="AlertColor.Danger"><Icon Name="IconName.Bug" Size="IconSize.x1" Color="IconColor.Danger" Class="me-2"/>@ResponseCode - Something went wrong.</Alert>
-<Button To="/" Type="ButtonType.Link" Color="ButtonColor.Info">Back</Button>
+	<Alert Color="AlertColor.Danger"><Icon Name="IconName.Bug" Size="IconSize.x1" Color="IconColor.Danger" Class="me-2" />@ResponseCode - Something went wrong.</Alert>
 </div>
 
 @code {
