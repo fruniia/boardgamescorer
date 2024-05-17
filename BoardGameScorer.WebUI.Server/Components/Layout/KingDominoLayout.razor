@@ -1,0 +1,14 @@
+﻿@inherits LayoutComponentBase
+@layout MainLayout
+<PageTitle>KingDomino calculate your score</PageTitle>
+<article>
+	<h6 class="mt-3">Fill in your score below</h6>
+	@Body
+</article>
+<footer class="footer">
+	@FooterMessage
+</footer>
+
+@code {
+	public string FooterMessage { get; set; } = "KingDomino is a trademark of Blue Orange.";
+}
