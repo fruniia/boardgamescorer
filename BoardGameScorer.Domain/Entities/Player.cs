@@ -1,5 +1,5 @@
 ﻿namespace BoardGameScorer.Domain.Entities;
-public class Player : BaseAuditInfo
+public class Player : BaseEntity
 {
 	public required string Name { get; set; }
 }
