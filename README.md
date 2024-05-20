@@ -8,4 +8,4 @@ for you when you want to calculate your score after playing Kingdomino.
 In the making...
 
 ## Styling
-This project uses nuget-package Blazor-Bootstrap version 2.1.0
+This project uses nuget-package Blazor-Bootstrap version 2.2.0
