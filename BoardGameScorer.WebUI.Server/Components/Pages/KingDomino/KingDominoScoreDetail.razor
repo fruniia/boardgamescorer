@@ -1,0 +1,15 @@
+
+	<tr>
+		<th scope="row"></th>
+		<td>@GameScore!.Terrain</td>
+		<td>@GameScore.Tiles</td>
+		<td>@GameScore.Crowns</td>
+		<td>@GameScore.Score</td>
+	</tr>
+
+
+
+@code {
+	[Parameter]
+	public KingDominoGameModel? GameScore { get; set; }
+}

@@ -1,0 +1,33 @@
+@if (Registration!.Count > 0)
+{
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col"></th>
+				<th scope="col">Terrain</th>
+				<th scope="col">No of tiles</th>
+				<th scope="col">No of crowns</th>
+				<th scope="col">Score</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var game in Registration)
+			{
+				<KingDominoScoreDetail GameScore="game" />
+			}
+		</tbody>
+	</table>
+}
+else
+{
+	<div class="m-2">
+		<Alert Color="AlertColor.Info">
+			<Icon Name="IconName.InfoCircleFill" Color="IconColor.Info" Class="me-2" />No scores yet
+		</Alert>
+	</div>
+}
+
+@code {
+	[Parameter]
+	public List<KingDominoGameModel>? Registration { get; set; }
+}

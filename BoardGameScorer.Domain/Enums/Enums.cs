@@ -1,7 +1,6 @@
 ﻿namespace BoardGameScorer.Domain.Enums;
 public enum Terrain
 {
-	Castle = 1,
 	Wheat = 26,
 	Forest = 22,
 	Lake = 18,
