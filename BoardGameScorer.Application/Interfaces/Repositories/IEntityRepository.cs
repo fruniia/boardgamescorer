@@ -1,4 +1,4 @@
-﻿namespace BoardGameScorer.Application.Repositories;
+﻿namespace BoardGameScorer.Application.Interfaces.Repositories;
 internal interface IEntityRepository<T> where T : class
 {
 	Task<T> GetByIdAsync(int id);

@@ -5,34 +5,22 @@
 <EditForm EditContext="_editContext" FormName="myForm" OnValidSubmit="HandleSubmit">
 	<DataAnnotationsValidator />
 	<ValidationSummary />
-	<div class="form-group mb-3">
+	<div class="mb-3">
+		<label for="terrain" class="form-label">--Select Terrain--</label>
 		<InputSelect id="terrain" class="form-select" @bind-Value=Model!.Terrain>
-			@if(Model!.Terrain is null)
-			{
-				<option selected value="">--Select Terrain--</option>
-			}
-			else
-			{
-				<option value=""></option>
-			}
-			@foreach (var terrain in Terrains)
-			{
-				if (terrain == "Castle")
-				{
-					<option hidden>--Select Terrain--</option>
-				}
-				else
+			<optgroup label="--Select Terrain--">
+				@foreach (var terrain in Enum.GetValues(typeof(Terrain)))
 				{
 					<option value="@terrain">@terrain</option>
 				}
-			}
+			</optgroup>
 		</InputSelect>
-		<ValidationMessage For="@(() => @Model.Terrain)" />
+		<ValidationMessage For="@(() =>  @Model!.Terrain)" />
 	</div>
 
 	<div class="form-group mb-3">
 		<label class="form-label" for="tiles">How many tiles?</label>
-		<NumberInput TValue="int" id="tiles" @bind-Value=Model.Tiles EnableMinMax="true" Min="1" Max="24" Placeholder="Enter number of tiles"></NumberInput>
+		<NumberInput TValue="int" id="tiles" @bind-Value=Model.Tiles EnableMinMax=true Min="1" Max="24" required></NumberInput>
 		<ValidationMessage For="@(() => Model.Tiles)" />
 	</div>
 
@@ -40,7 +28,7 @@
 		<label class="form-label" for="crown">How many crowns?</label>
 		<InputSelect id="crown" class="form-select" @bind-Value=Model.Crowns>
 
-			@foreach (var crown in Crowns)
+			@foreach (var crown in (int[])Enum.GetValues(typeof(TileWithCrown)))
 			{
 				<option value="@crown">@crown</option>
 			}
@@ -48,14 +36,9 @@
 		</InputSelect>
 		<ValidationMessage For="@(() => Model!.Crowns)" />
 	</div>
-
 	<Button Type="ButtonType.Submit" Color="ButtonColor.Light">
 		Confirm
 	</Button>
 </EditForm>
 
-
-@if (registration.Count > 0)
-{
-	<ScoreInputDisplay Registration="registration"></ScoreInputDisplay>
-}
+<KingDominoScoreList Registration="@_registration" />
