@@ -1,7 +1,7 @@
 ﻿namespace BoardGameScorer.Domain.Models;
-
-public class KingDominoScoreEntry
+public class KingdominoScoreEntry
 {
+	public string PlayerName { get; set; } = string.Empty;
 	[Required(ErrorMessage = "Terrain needs to be selected")]
 	public Terrain Terrain { get; set; } = Terrain.Wheat;
 	//public string? Terrain { get; set; }

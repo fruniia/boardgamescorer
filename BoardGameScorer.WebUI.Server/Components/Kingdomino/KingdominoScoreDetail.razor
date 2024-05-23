@@ -1,0 +1,11 @@
+<tr>
+	<th scope="row"></th>
+	<td>@GameScore!.Terrain</td>
+	<td>@GameScore.Tiles</td>
+	<td>@GameScore.Crowns</td>
+	<td>@GameScore.TileScore</td>
+</tr>
+@code {
+	[Parameter]
+	public KingdominoScoreEntry? GameScore { get; set; }
+}

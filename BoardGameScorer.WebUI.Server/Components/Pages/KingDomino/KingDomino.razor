@@ -1,5 +1,6 @@
 ﻿@page "/kingdomino"
-@layout KingDominoLayout
+@using BoardGameScorer.WebUI.Server.Components.Kingdomino
+@layout KingdominoLayout
 @rendermode InteractiveServer
 
 <EditForm EditContext="_editContext" FormName="myForm" OnValidSubmit="HandleSubmit">
@@ -40,5 +41,4 @@
 		Confirm
 	</Button>
 </EditForm>
-
-<KingDominoScoreList Registration="@_registration" TotalScore="@CalculateTotalScore()"/>
+<KingdominoScoreList Registration="@_registration" TotalScore="@CalculateTotalScore()"/>
