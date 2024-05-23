@@ -1,12 +1,11 @@
 namespace BoardGameScorer.WebUI.Server.Components.Pages.KingDomino;
-
 public partial class KingDomino
 {
 	private EditContext? _editContext;
 
 	[SupplyParameterFromForm]
-	public KingDominoGameModel? Model { get; set; }
-	private readonly List<KingDominoGameModel> _registration = [];
+	public KingDominoScoreEntry? Model { get; set; }
+	private readonly List<KingDominoScoreEntry> _registration = [];
 
 	protected override void OnInitialized()
 	{
@@ -19,8 +18,15 @@ public partial class KingDomino
 	{
 		if (Model!.Tiles > 0)
 		{
+			Model.TileScore = Model.CalculateTileScore();
+			Model.ScoreHistory.Add(Model.TileScore);
 			_registration.Add(Model);
-			Model = new();
+			Model = new KingDominoScoreEntry();
+			_editContext = new EditContext(Model);
 		}
+	}
+	private int CalculateTotalScore()
+	{
+		return _registration.SelectMany(x => x.ScoreHistory).Sum();
 	}
 }

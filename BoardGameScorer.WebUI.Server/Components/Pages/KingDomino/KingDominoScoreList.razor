@@ -1,6 +1,11 @@
 @if (Registration!.Count > 0)
 {
-	<table class="table">
+	<div class="m-2 text-center pb-4">
+		<h3>Totalscore</h3>
+		<h3> <Badge Color="BadgeColor.Success">@TotalScore</Badge></h3>
+	</div>
+
+	<table class="table table-light table-striped">
 		<thead>
 			<tr>
 				<th scope="col"></th>
@@ -20,7 +25,7 @@
 }
 else
 {
-	<div class="m-2">
+	<div class="m-2 pt-4">
 		<Alert Color="AlertColor.Info">
 			<Icon Name="IconName.InfoCircleFill" Color="IconColor.Info" Class="me-2" />No scores yet
 		</Alert>
@@ -29,5 +34,7 @@ else
 
 @code {
 	[Parameter]
-	public List<KingDominoGameModel>? Registration { get; set; }
+	public List<KingDominoScoreEntry>? Registration { get; set; }
+	[Parameter]
+	public int TotalScore { get; set; }
 }

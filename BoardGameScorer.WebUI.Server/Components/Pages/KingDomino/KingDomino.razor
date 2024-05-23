@@ -36,9 +36,9 @@
 		</InputSelect>
 		<ValidationMessage For="@(() => Model!.Crowns)" />
 	</div>
-	<Button Type="ButtonType.Submit" Color="ButtonColor.Light">
+	<Button Type="ButtonType.Submit" Color="ButtonColor.Secondary" Outline="true">
 		Confirm
 	</Button>
 </EditForm>
 
-<KingDominoScoreList Registration="@_registration" />
+<KingDominoScoreList Registration="@_registration" TotalScore="@CalculateTotalScore()"/>

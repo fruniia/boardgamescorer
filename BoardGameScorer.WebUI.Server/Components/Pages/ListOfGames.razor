@@ -1,0 +1,24 @@
+﻿@page "/"
+<PageTitle>Games</PageTitle>
+<h3>Calculate your score</h3>
+@if (Games is null)
+{
+	<Spinner Color="SpinnerColor.Info">Loading...</Spinner>
+}
+else
+{
+	<Card>
+		@foreach (var game in Games)
+		{
+			<CardBody>
+				<CardHeader>@game.Name</CardHeader>
+				<CardText>@game.Description</CardText>
+				<CardFooter>
+					<Button Color="ButtonColor.Info" To="@game.Name.Replace(' ', '_')" Type="ButtonType.Link" Outline="true" Size="Size.Small">Calculate score</Button>
+				</CardFooter>
+			</CardBody>
+		}
+	</Card>
+}
+
+
