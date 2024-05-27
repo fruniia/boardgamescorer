@@ -15,41 +15,31 @@
 {
 	<div class="mb-3">
 		<h4>Enter player names</h4>
-		@for (int i = 1; i <= NumberOfPlayers; i++)
+		@foreach (var player in players)
 		{
-			<EditForm Model="players" OnValidSubmit="(() => SavePlayers(players[i-1].Id, players[i-1].Name))">
-				<div class="mb-3 form-group">
-					<label for="playerName">Player @((players[i-1].Id)):</label>
-					<input type="text" id="playerName" class="form-control" @bind="(players[i-1].Name)" />
-				</div>
-			</EditForm>
-			<Button Type="ButtonType.Submit" Color="ButtonColor.Info" Outline="true">Submit names</Button>
+			<div class="mb-3 form-group">
+				<label for="@player.Id">Player:</label>
+				<input type="text" id="@player.Id" @bind=@player.Name />
+				<Button Color="ButtonColor.Info" Outline="true" @onclick="() => SavePlayers(player.Id, player.Name)">Update name</Button>
+			</div>
 		}
-@* 				@for (int i = 1; i <= NumberOfPlayers; i++)
-			<EditForm Model="players" OnValidSubmit="(() => SavePlayers(players[i-1].Id, players[i-1].Name))">
-				<div class="mb-3 form-group">
-					<label for="playerName">Player @((players[i-].Id)):</label>
-					<input type="text" id="playerName" class="form-control" @bind="(players[i-1].Name)" />
-				</div>
-			</EditForm>
-			<Button Type="ButtonType.Submit" Color="ButtonColor.Info" Outline="true">Submit names</Button>
-		} *@
 	</div>
+	@foreach (var player in gameService.GetPlayers())
+	{
+		<p>@player.Name</p>
+	}
 }
-
 
 @code {
 	private List<KingdominoPlayer> players = new();
 	private KingdominoPlayer Player { get; set; } = new();
 	public int NumberOfPlayers { get; set; }
 	private int numPlayers;
-	private string name = string.Empty;
 
 	protected override void OnInitialized()
 	{
 		players = gameService.GetPlayers();
 	}
-
 
 	private void AddNumberOfPlayers()
 	{
@@ -80,8 +70,14 @@
 		var player = players.FirstOrDefault(p => p.Id == id);
 		if (player is not null)
 		{
-			player.Name = name;
-			gameService.UpdatePlayer(player);
+			var update = gameService.GetPlayerById(id);
+			if (update is not null)
+			{
+				update.Name = name;
+				gameService.UpdatePlayer(update);
+				players = gameService.GetPlayers();
+				StateHasChanged();
+			}
 		}
 	}
 
