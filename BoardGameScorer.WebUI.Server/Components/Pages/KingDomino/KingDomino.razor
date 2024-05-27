@@ -2,7 +2,7 @@
 @using BoardGameScorer.WebUI.Server.Components.Kingdomino
 @layout KingdominoLayout
 @rendermode InteractiveServer
-
+<h6 class="mt-3 mb-3">Fill in your score below</h6>
 <EditForm EditContext="_editContext" FormName="addScore" OnValidSubmit="HandleSubmit">
 	<DataAnnotationsValidator />
 	<ValidationSummary />

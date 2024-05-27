@@ -4,29 +4,37 @@
 @layout KingdominoLayout
 @rendermode InteractiveServer
 
-<h3>Setup Players</h3>
-<div class="mb-3 form-group">
-	<label for="numPlayers">Number of Players:</label>
-	<input type="number" class="form-control" id="numPlayers" @bind="numPlayers" Min="2" Max="4" />
-</div>
-<Button Color="ButtonColor.Info" Outline="true" @onclick="AddNumberOfPlayers">
-	@(hasPlayers ? "Update number of players" : "Add number of players")
-</Button>
+<h3 class="mb-3">Setup the players for your game</h3>
+<EditForm EditContext="@_editContext" FormName="addPlayers" OnValidSubmit="AddNumberOfPlayers">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+	<div class="mb-3 form-group">
+		<label for="numPlayers" class="mb-3">Number of Players:</label>
+		<NumberInput TValue="int" id="numPlayers" @bind-Value=@SetUp!.NumberOfPlayers required />
+		<ValidationMessage For="@(() => @SetUp!.NumberOfPlayers)" />
+	</div>
+	<Button Color="ButtonColor.Info" Outline="true" Type="ButtonType.Submit" Class="mb-3">
+		@(hasPlayers ? "Update number of players" : "Add number of players")
+	</Button>
+</EditForm>
 
-@if (setUp.NumberOfPlayers > 0 && setUp.Players.Count > 0)
+@if (SetUp!.NumberOfPlayers > 0)
 {
-	<div class="mb-3">
+	<div class="mb-3 mt-3">
 		<h4>Enter player names</h4>
-		@foreach (var player in setUp.Players)
+		@if (SetUp.Players.Count > 0)
 		{
-			<div class="mb-3 form-group">
-				<label for="@player.Id">Player @player.Id:</label>
-				<input type="text" id="@player.Id" @bind=@player.Name />
-			</div>
+			@foreach (var player in SetUp.Players)
+			{
+				<div class="mb-3 form-group">
+					<label for="@player.Id">Player @player.Id:</label>
+					<input type="text" id="@player.Id" @bind=@player.Name />
+				</div>
+			}
+			<Button Color="ButtonColor.Info" Outline="true" @onsubmit="SavePlayer">Save players names</Button>
 		}
 	</div>
 
-	<Button Color="ButtonColor.Info" Outline="true" @onsubmit="SavePlayer">Save playernames</Button>
 	@foreach (var player in gameService.GetPlayers())
 	{
 		<p>@player.Name</p>
@@ -34,46 +42,46 @@
 }
 
 @code {
-	private KingDominoPlayerSetup setUp = new();
-	private KingdominoPlayer Player { get; set; } = new();
-	private int numPlayers;
+	EditContext? _editContext;
+	[SupplyParameterFromForm(FormName = "addPlayers")]
+	public KingDominoPlayerSetup? SetUp { get; set; }
 	private bool hasPlayers = false;
 
 	protected override void OnInitialized()
 	{
-		setUp.Players = gameService.GetPlayers();
+		SetUp ??= new();
+		_editContext = new(SetUp);
+		SetUp.Players = gameService.GetPlayers();
 	}
-
 	private void AddNumberOfPlayers()
 	{
-		setUp.NumberOfPlayers = new();
-	    setUp.NumberOfPlayers = numPlayers;
-		if (hasPlayers)
+		if (SetUp!.NumberOfPlayers > 0)
 		{
-			ChangeNumberOfPlayers();
-		}
-		else
-		{
-			AddPlayer();
+			if (hasPlayers)
+			{
+				ChangeNumberOfPlayers();
+			}
+			else
+			{
+				AddPlayer();
+			}
 		}
 	}
-
 	private void ChangeNumberOfPlayers()
 	{
-		setUp.Players.Clear();
-		foreach(var player in setUp.Players)
-		{	
+		SetUp!.Players.Clear();
+		foreach (var player in SetUp.Players)
+		{
 			gameService.UpdatePlayer(player);
 		}
-			hasPlayers = false;
+		hasPlayers = false;
 		AddPlayer();
 	}
-
 	private void AddPlayer()
 	{
-		if (setUp.NumberOfPlayers >= 2 && setUp.NumberOfPlayers <= 4 && setUp.Players.Count() < 3)
+		if (SetUp!.NumberOfPlayers >= 2 && SetUp!.NumberOfPlayers <= 4)
 		{
-			for (int i = 0; i < setUp.NumberOfPlayers; i++)
+			for (int i = 0; i < SetUp.NumberOfPlayers; i++)
 			{
 				var newId = GenerateUniqueId();
 				gameService.AddPlayers(new KingdominoPlayer { Id = newId });
@@ -81,10 +89,9 @@
 			hasPlayers = true;
 		}
 	}
-
 	private void SavePlayer()
 	{
-		foreach (var player in setUp.Players)
+		foreach (var player in SetUp!.Players)
 		{
 			var update = gameService.GetPlayerById(player.Id);
 			if (update is not null)
@@ -95,9 +102,8 @@
 			}
 		}
 	}
-
 	private int GenerateUniqueId()
 	{
-		return setUp.Players.Count > 0 ? setUp.Players.Max(p => p.Id) + 1 : 1;
+		return SetUp!.Players.Count > 0 ? SetUp.Players.Max(p => p.Id) + 1 : 1;
 	}
 }
