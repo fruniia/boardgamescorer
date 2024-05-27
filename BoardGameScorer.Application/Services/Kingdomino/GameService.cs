@@ -18,7 +18,8 @@ public class GameService : IGameService<KingdominoPlayer>
 
 	public KingdominoPlayer GetPlayerById(int playerId)
 	{
-		return _players.FirstOrDefault(p => p.Id == playerId);
+		var player = _players.FirstOrDefault(p => p.Id == playerId);
+		return player;
 	}
 
 	public void UpdatePlayer(KingdominoPlayer player)

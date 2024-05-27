@@ -2,18 +2,15 @@ namespace BoardGameScorer.WebUI.Server.Components.Pages.Kingdomino;
 public partial class Kingdomino
 {
 	private EditContext? _editContext;
-
 	[SupplyParameterFromForm]
 	public KingdominoScoreEntry? Model { get; set; }
 	private readonly List<KingdominoScoreEntry> _registration = [];
-
 	protected override void OnInitialized()
 	{
 		Model ??= new();
 		_editContext = new(Model);
 		base.OnInitialized();
 	}
-
 	private void HandleSubmit()
 	{
 		if (Model!.Tiles > 0)

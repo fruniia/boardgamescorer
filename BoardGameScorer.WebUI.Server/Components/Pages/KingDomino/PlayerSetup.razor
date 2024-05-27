@@ -9,21 +9,24 @@
 	<label for="numPlayers">Number of Players:</label>
 	<input type="number" class="form-control" id="numPlayers" @bind="numPlayers" Min="2" Max="4" />
 </div>
-<Button Color="ButtonColor.Info" Outline="true" @onclick="AddNumberOfPlayers">Add Number of Players</Button>
+<Button Color="ButtonColor.Info" Outline="true" @onclick="AddNumberOfPlayers">
+	@(hasPlayers ? "Update number of players" : "Add number of players")
+</Button>
 
-@if (NumberOfPlayers > 0 && players.Count > 0)
+@if (setUp.NumberOfPlayers > 0 && setUp.Players.Count > 0)
 {
 	<div class="mb-3">
 		<h4>Enter player names</h4>
-		@foreach (var player in players)
+		@foreach (var player in setUp.Players)
 		{
 			<div class="mb-3 form-group">
-				<label for="@player.Id">Player:</label>
+				<label for="@player.Id">Player @player.Id:</label>
 				<input type="text" id="@player.Id" @bind=@player.Name />
-				<Button Color="ButtonColor.Info" Outline="true" @onclick="() => SavePlayers(player.Id, player.Name)">Update name</Button>
 			</div>
 		}
 	</div>
+
+	<Button Color="ButtonColor.Info" Outline="true" @onsubmit="SavePlayer">Save playernames</Button>
 	@foreach (var player in gameService.GetPlayers())
 	{
 		<p>@player.Name</p>
@@ -31,58 +34,70 @@
 }
 
 @code {
-	private List<KingdominoPlayer> players = new();
+	private KingDominoPlayerSetup setUp = new();
 	private KingdominoPlayer Player { get; set; } = new();
-	public int NumberOfPlayers { get; set; }
 	private int numPlayers;
+	private bool hasPlayers = false;
 
 	protected override void OnInitialized()
 	{
-		players = gameService.GetPlayers();
+		setUp.Players = gameService.GetPlayers();
 	}
 
 	private void AddNumberOfPlayers()
 	{
-		NumberOfPlayers = new();
-		NumberOfPlayers = numPlayers;
+		setUp.NumberOfPlayers = new();
+	    setUp.NumberOfPlayers = numPlayers;
+		if (hasPlayers)
+		{
+			ChangeNumberOfPlayers();
+		}
+		else
+		{
+			AddPlayer();
+		}
+	}
+
+	private void ChangeNumberOfPlayers()
+	{
+		setUp.Players.Clear();
+		foreach(var player in setUp.Players)
+		{	
+			gameService.UpdatePlayer(player);
+		}
+			hasPlayers = false;
 		AddPlayer();
 	}
 
 	private void AddPlayer()
 	{
-		for (int i = 1; i < NumberOfPlayers; i++)
+		if (setUp.NumberOfPlayers >= 2 && setUp.NumberOfPlayers <= 4 && setUp.Players.Count() < 3)
 		{
-			if (gameService.GetPlayers().Count >= 4)
-			{
-				Console.WriteLine("No more players");
-			}
-			else
+			for (int i = 0; i < setUp.NumberOfPlayers; i++)
 			{
 				var newId = GenerateUniqueId();
-				players.Add(new KingdominoPlayer { Id = newId });
 				gameService.AddPlayers(new KingdominoPlayer { Id = newId });
 			}
+			hasPlayers = true;
 		}
 	}
 
-	private void SavePlayers(int id, string name)
+	private void SavePlayer()
 	{
-		var player = players.FirstOrDefault(p => p.Id == id);
-		if (player is not null)
+		foreach (var player in setUp.Players)
 		{
-			var update = gameService.GetPlayerById(id);
+			var update = gameService.GetPlayerById(player.Id);
 			if (update is not null)
 			{
-				update.Name = name;
+				update.Name = player.Name;
 				gameService.UpdatePlayer(update);
-				players = gameService.GetPlayers();
-				StateHasChanged();
+				hasPlayers = true;
 			}
 		}
 	}
 
 	private int GenerateUniqueId()
 	{
-		return players.Count > 0 ? players.Max(p => p.Id) + 1 : 1;
+		return setUp.Players.Count > 0 ? setUp.Players.Max(p => p.Id) + 1 : 1;
 	}
 }
