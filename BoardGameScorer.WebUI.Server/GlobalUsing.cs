@@ -1,5 +1,5 @@
-﻿global using BoardGameScorer.Domain.Entities;
-global using BoardGameScorer.Domain.Enums;
+﻿global using BoardGameScorer.Application.Interfaces.Repositories;
+global using BoardGameScorer.Domain.Entities;
 global using BoardGameScorer.Domain.Models;
 global using BoardGameScorer.Infrastructure.Data;
 global using BoardGameScorer.WebUI.Server.Components;

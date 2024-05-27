@@ -1,0 +1,92 @@
+﻿@page "/queendomino"
+@using BoardGameScorer.WebUI.Server.Components.Kingdomino
+@inject IGameService<KingdominoPlayer> gameService
+@layout KingdominoLayout
+@rendermode InteractiveServer
+
+<h3>Setup Players</h3>
+<div class="mb-3 form-group">
+	<label for="numPlayers">Number of Players:</label>
+	<input type="number" class="form-control" id="numPlayers" @bind="numPlayers" Min="2" Max="4" />
+</div>
+<Button Color="ButtonColor.Info" Outline="true" @onclick="AddNumberOfPlayers">Add Number of Players</Button>
+
+@if (NumberOfPlayers > 0 && players.Count > 0)
+{
+	<div class="mb-3">
+		<h4>Enter player names</h4>
+		@for (int i = 1; i <= NumberOfPlayers; i++)
+		{
+			<EditForm Model="players" OnValidSubmit="(() => SavePlayers(players[i-1].Id, players[i-1].Name))">
+				<div class="mb-3 form-group">
+					<label for="playerName">Player @((players[i-1].Id)):</label>
+					<input type="text" id="playerName" class="form-control" @bind="(players[i-1].Name)" />
+				</div>
+			</EditForm>
+			<Button Type="ButtonType.Submit" Color="ButtonColor.Info" Outline="true">Submit names</Button>
+		}
+@* 				@for (int i = 1; i <= NumberOfPlayers; i++)
+			<EditForm Model="players" OnValidSubmit="(() => SavePlayers(players[i-1].Id, players[i-1].Name))">
+				<div class="mb-3 form-group">
+					<label for="playerName">Player @((players[i-].Id)):</label>
+					<input type="text" id="playerName" class="form-control" @bind="(players[i-1].Name)" />
+				</div>
+			</EditForm>
+			<Button Type="ButtonType.Submit" Color="ButtonColor.Info" Outline="true">Submit names</Button>
+		} *@
+	</div>
+}
+
+
+@code {
+	private List<KingdominoPlayer> players = new();
+	private KingdominoPlayer Player { get; set; } = new();
+	public int NumberOfPlayers { get; set; }
+	private int numPlayers;
+	private string name = string.Empty;
+
+	protected override void OnInitialized()
+	{
+		players = gameService.GetPlayers();
+	}
+
+
+	private void AddNumberOfPlayers()
+	{
+		NumberOfPlayers = new();
+		NumberOfPlayers = numPlayers;
+		AddPlayer();
+	}
+
+	private void AddPlayer()
+	{
+		for (int i = 1; i < NumberOfPlayers; i++)
+		{
+			if (gameService.GetPlayers().Count >= 4)
+			{
+				Console.WriteLine("No more players");
+			}
+			else
+			{
+				var newId = GenerateUniqueId();
+				players.Add(new KingdominoPlayer { Id = newId });
+				gameService.AddPlayers(new KingdominoPlayer { Id = newId });
+			}
+		}
+	}
+
+	private void SavePlayers(int id, string name)
+	{
+		var player = players.FirstOrDefault(p => p.Id == id);
+		if (player is not null)
+		{
+			player.Name = name;
+			gameService.UpdatePlayer(player);
+		}
+	}
+
+	private int GenerateUniqueId()
+	{
+		return players.Count > 0 ? players.Max(p => p.Id) + 1 : 1;
+	}
+}

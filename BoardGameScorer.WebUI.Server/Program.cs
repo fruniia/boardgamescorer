@@ -1,3 +1,5 @@
+using BoardGameScorer.Application.Services.Kingdomino;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddBlazorBootstrap();
@@ -9,7 +11,7 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
-//builder.Services.AddSingleton<GameService>();
+builder.Services.AddScoped<IGameService<KingdominoPlayer>, GameService>();
 
 builder.Services.AddAuthentication(options =>
 {
