@@ -1,6 +1,5 @@
-﻿@page "/kingdomino"
-@attribute [Authorize]
-
+﻿@page "/queendominos"
+@using BoardGameScorer.WebUI.Server.Components.Kingdomino
 @layout KingdominoLayout
 @rendermode InteractiveServer
 <h6 class="mt-3 mb-3">Fill in your score below</h6>
@@ -39,5 +38,33 @@
 	<Button Type="ButtonType.Submit" Color="ButtonColor.Secondary" Outline="true">
 		Confirm
 	</Button>
-</EditForm>
-<KingdominoScoreList Registration="@_registration" TotalScore="@CalculateTotalScore()" />
+</EditForm>@* 
+<KingdominoScoreList Registration="@_registration" TotalScore="@CalculateTotalScore()" /> *@
+
+@code {
+	private EditContext? _editContext;
+	[SupplyParameterFromForm]
+	public KingdominoScoreEntry? Model { get; set; }
+	private readonly List<KingdominoScoreEntry> _registration = [];
+	protected override void OnInitialized()
+	{
+		Model ??= new();
+		_editContext = new(Model);
+		base.OnInitialized();
+	}
+	private void HandleSubmit()
+	{
+		if (Model!.Tiles > 0)
+		{
+			Model.TileScore = Model.CalculateTileScore();
+			Model.ScoreHistory.Add(Model.TileScore);
+			_registration.Add(Model);
+			Model = new KingdominoScoreEntry();
+			_editContext = new EditContext(Model);
+		}
+	}
+	private int CalculateTotalScore()
+	{
+		return _registration.SelectMany(x => x.ScoreHistory).Sum();
+	}
+}

@@ -1,6 +1,7 @@
-﻿@page "/queendomino"
+﻿@page "/queendomino/"
 @using BoardGameScorer.WebUI.Server.Components.Kingdomino
-@inject IGameService<KingdominoPlayer> gameService
+@inject IGamesService<KingdominoPlayer> gameService
+@inject NavigationManager navigationManager
 @layout KingdominoLayout
 @rendermode InteractiveServer
 
@@ -14,7 +15,7 @@
 		<ValidationMessage For="@(() => @SetUp!.NumberOfPlayers)" />
 	</div>
 	<Button Color="ButtonColor.Info" Outline="true" Type="ButtonType.Submit" Class="mb-3">
-		@(hasPlayers ? "Update number of players" : "Add number of players")
+		@(_hasPlayers ? "Update number of players" : "Add number of players")
 	</Button>
 </EditForm>
 
@@ -22,88 +23,19 @@
 {
 	<div class="mb-3 mt-3">
 		<h4>Enter player names</h4>
-		@if (SetUp.Players.Count > 0)
+		@if (SetUp!.Players.Count > 0)
 		{
 			@foreach (var player in SetUp.Players)
 			{
 				<div class="mb-3 form-group">
 					<label for="@player.Id">Player @player.Id:</label>
 					<input type="text" id="@player.Id" @bind=@player.Name />
+					@if (_hasPlayers && player.Name is not "")
+					{
+					}
 				</div>
 			}
-			<Button Color="ButtonColor.Info" Outline="true" @onsubmit="SavePlayer">Save players names</Button>
+			<Button Color="ButtonColor.Info" Outline="true" @onsubmit="SavePlayer" Type="ButtonType.Submit">Save players names</Button>
 		}
 	</div>
-
-	@foreach (var player in gameService.GetPlayers())
-	{
-		<p>@player.Name</p>
-	}
-}
-
-@code {
-	EditContext? _editContext;
-	[SupplyParameterFromForm(FormName = "addPlayers")]
-	public KingDominoPlayerSetup? SetUp { get; set; }
-	private bool hasPlayers = false;
-
-	protected override void OnInitialized()
-	{
-		SetUp ??= new();
-		_editContext = new(SetUp);
-		SetUp.Players = gameService.GetPlayers();
-	}
-	private void AddNumberOfPlayers()
-	{
-		if (SetUp!.NumberOfPlayers > 0)
-		{
-			if (hasPlayers)
-			{
-				ChangeNumberOfPlayers();
-			}
-			else
-			{
-				AddPlayer();
-			}
-		}
-	}
-	private void ChangeNumberOfPlayers()
-	{
-		SetUp!.Players.Clear();
-		foreach (var player in SetUp.Players)
-		{
-			gameService.UpdatePlayer(player);
-		}
-		hasPlayers = false;
-		AddPlayer();
-	}
-	private void AddPlayer()
-	{
-		if (SetUp!.NumberOfPlayers >= 2 && SetUp!.NumberOfPlayers <= 4)
-		{
-			for (int i = 0; i < SetUp.NumberOfPlayers; i++)
-			{
-				var newId = GenerateUniqueId();
-				gameService.AddPlayers(new KingdominoPlayer { Id = newId });
-			}
-			hasPlayers = true;
-		}
-	}
-	private void SavePlayer()
-	{
-		foreach (var player in SetUp!.Players)
-		{
-			var update = gameService.GetPlayerById(player.Id);
-			if (update is not null)
-			{
-				update.Name = player.Name;
-				gameService.UpdatePlayer(update);
-				hasPlayers = true;
-			}
-		}
-	}
-	private int GenerateUniqueId()
-	{
-		return SetUp!.Players.Count > 0 ? SetUp.Players.Max(p => p.Id) + 1 : 1;
-	}
 }

@@ -1,0 +1,25 @@
+﻿@page "/queendomino/players"
+@using BoardGameScorer.WebUI.Server.Components.Kingdomino
+@layout KingdominoLayout
+@rendermode InteractiveServer
+@inject GamesService gameService
+@inject NavigationManager navigationManager
+@if (gameService.GetPlayers().Any())
+{
+	<Spinner>Loading...</Spinner>
+}
+else
+{
+	<Card>
+		@foreach (var player in gameService.GetPlayers())
+		{
+			<PlayerDetail Player="player"/>
+		}
+	</Card>
+}
+@code {
+	private void NavigateToPlayer(int playerId)
+	{
+		navigationManager.NavigateTo($"/queendomino/players/{playerId}");
+	}
+}

@@ -1,4 +1,5 @@
 using BoardGameScorer.Application.Services.Kingdomino;
+using BoardGameScorer.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,10 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
-builder.Services.AddScoped<IGameService<KingdominoPlayer>, GameService>();
+builder.Services.AddScoped<IEntityRepository<PlaySession>, PlaySessionRepository>();
+builder.Services.AddScoped<IEntityRepository<Game>, GameRepository>();
+builder.Services.AddScoped<GameService>();
+builder.Services.AddSingleton<IGamesService<KingdominoPlayer>, GamesService>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -44,6 +48,9 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStatusCodePagesWithRedirects("/StatusCode/{0}");
 app.UseStaticFiles();
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()

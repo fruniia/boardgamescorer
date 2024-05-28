@@ -1,0 +1,20 @@
+﻿@using BoardGameScorer.WebUI.Server.Components.Kingdomino
+@layout KingdominoLayout
+@inject GamesService gameService
+<CardBody>
+	<CardHeader>@Player!.Name</CardHeader>
+	<CardText>@Player!.Id</CardText>
+	<CardFooter>
+		<Button Color="ButtonColor.Info" Outline="true" Size="Size.Small">Let's get some score'</Button>
+	</CardFooter>
+</CardBody>
+
+@code {
+    [Parameter] public KingdominoPlayer? Player { get; set; }
+
+    protected override void OnInitialized()
+    {
+        
+    }
+}
+

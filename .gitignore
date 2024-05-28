@@ -453,3 +453,10 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+/BoardGameScorer.API/Controllers/WeatherForecastController.cs
+/BoardGameScorer.API/Properties/launchSettings.json
+/BoardGameScorer.API/appsettings.json
+/BoardGameScorer.API/BoardGameScorer.API.csproj
+/BoardGameScorer.API/BoardGameScorer.API.http
+/BoardGameScorer.API/Program.cs
+/BoardGameScorer.API/WeatherForecast.cs

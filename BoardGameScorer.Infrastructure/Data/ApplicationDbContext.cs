@@ -5,12 +5,15 @@ namespace BoardGameScorer.Infrastructure.Data;
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
 	public DbSet<Game> Games { get; set; }
-	//public DbSet<Player> Players { get; set; }
-	//public DbSet<Score> Scores { get; set; }
+	public DbSet<Player> Players { get; set; }
+	public DbSet<PlaySession> PlaySessions { get; set; }
+	public DbSet<User> GameUsers { get; set; }
 	//public DbSet<HighScore> HighScores { get; set; }
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
+		modelBuilder.Entity<PlaySession>().HasMany(p => p.Players);
+
 		modelBuilder.Entity<Game>().HasData(
 			new Game
 			{
