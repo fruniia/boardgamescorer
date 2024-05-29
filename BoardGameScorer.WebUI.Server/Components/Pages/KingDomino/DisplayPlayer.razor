@@ -1,0 +1,15 @@
+﻿@layout KingdominoLayout
+<CardBody>
+	<CardHeader>@Player!.Name</CardHeader>
+	<CardText>@Player!.Id</CardText>
+	<CardText>@Player!.Score</CardText>
+	<CardFooter>
+		<Button Color="ButtonColor.Info" Outline="true" Size="Size.Small" Type="ButtonType.Link" To="">Let's get some score'</Button>
+	</CardFooter>
+</CardBody>
+
+
+@code {
+	[Parameter]
+	public Player Player { get; set; }
+}

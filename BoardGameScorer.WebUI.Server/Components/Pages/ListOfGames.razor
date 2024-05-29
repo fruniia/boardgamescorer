@@ -1,6 +1,5 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Authorization
-@* @attribute [Authorize] *@
 <PageTitle>Games</PageTitle>
 <h3>Calculate your score</h3>
 @if (Games is null)
@@ -16,7 +15,7 @@ else
 				<CardHeader>@game.Name</CardHeader>
 				<CardText>@game.Description</CardText>
 				<CardFooter>
-					<Button Color="ButtonColor.Info" To="@game.Name.Replace(' ', '_').ToLower()" Type="ButtonType.Link" Outline="true" Size="Size.Small">Calculate score</Button>
+					<Button Color="ButtonColor.Info" To="@game.Name.Replace(' ', '_').ToLower()" Type="ButtonType.Link" Outline="true" Size="Size.Small">Take me there</Button>
 				</CardFooter>
 			</CardBody>
 		}

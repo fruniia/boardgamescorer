@@ -5,6 +5,7 @@ public partial class Kingdomino
 	[SupplyParameterFromForm]
 	public KingdominoScoreEntry? Model { get; set; }
 	private readonly List<KingdominoScoreEntry> _registration = [];
+
 	protected override void OnInitialized()
 	{
 		Model ??= new();

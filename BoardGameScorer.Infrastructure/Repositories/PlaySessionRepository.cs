@@ -17,7 +17,7 @@ public class PlaySessionRepository(ApplicationDbContext context) : IEntityReposi
         if (result is not null)
         {
             context.PlaySessions.Remove(result);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 

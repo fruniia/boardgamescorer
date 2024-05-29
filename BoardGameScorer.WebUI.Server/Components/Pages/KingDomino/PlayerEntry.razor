@@ -1,26 +1,59 @@
 ﻿@page "/queendominosss/"
 @using BoardGameScorer.WebUI.Server.Components.Kingdomino
 @layout KingdominoLayout
-@inject UserService UserService
 @rendermode InteractiveServer
 
 <h3 class="mb-3">Setup the players for your game</h3>
-<p>Välkommen @Name!</p>
+<p>Welcome @Name!</p>
+<Button Color="ButtonColor.Secondary" Outline="true" @onclick=@(() => GetPlayers(4))>Get players</Button>
+@if (Players is not null)
+{
+	<Card Class="mb-3">
+		@foreach (var player in Players)
+		{
+			<DisplayPlayer Player="player"></DisplayPlayer>
+		}
+	</Card>
+	<br/>
+}
+@if (Players is null)
+{
+	<p>Enter Number of players</p>
+}
 
 @code {
-    EditContext _editContext { get; set; }
-    public string? Name { get; set; }
-    protected override void OnInitialized()
-    {
-        Name = UserService.Name;
-        base.OnInitialized();
-    }
+	[Inject]
+	public PlaySessionService? Session { get; set; } 
+	[Inject]
+	PlayerService? PlayerService { get; set; }
+	private Player Player { get; set; } = new Player();
+	public KingdominoPlayer Model { get; set; } = new();
+	[Inject]
+	UserService? UserService { get; set; }
 
-    //Skapa en User med id 1
-    //Skapa ett spel med id 1
-    //Skapa en playsession - hårdkoda 4
-    //Hämta alla spelare som har playsessionId 4
-    //Skriv ut alla spelare
-    //Kolla så att du kan uppdatera alla spelare
-    //Kolla vilken
+	[Parameter]
+	public int Id { get; set; }
+	public string? Name { get; set; }
+	public PlaySession? PlaySession { get; set; }
+	public List<Player>? Players { get; set; }
+
+	protected override async void OnInitialized()
+	{
+		Name = UserService!.Name;
+		base.OnInitialized();
+	}
+
+	private async Task<List<Player>> GetPlayers(int playSessionId)
+	{
+		Players = await PlayerService!.GetPlayerByPlaySessionId(playSessionId);
+		return Players;
+	}
+
+	//Skapa en User med id 1
+	//Skapa ett spel med id 1
+	//Skapa en playsession - hårdkoda 4
+	//Hämta alla spelare som har playsessionId 4
+	//Skriv ut alla spelare
+	//Kolla så att du kan uppdatera alla spelare
+	//Kolla vilken
 }

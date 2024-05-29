@@ -4,6 +4,7 @@
 @layout KingdominoLayout
 @rendermode InteractiveServer
 <h6 class="mt-3 mb-3">Fill in your score below</h6>
+<p>@totalScore</p>
 <EditForm EditContext="_editContext" FormName="addScore" OnValidSubmit="HandleSubmit">
 	<DataAnnotationsValidator />
 	<ValidationSummary />
@@ -40,4 +41,4 @@
 		Confirm
 	</Button>
 </EditForm>
-<KingdominoScoreList Registration="@_registration" TotalScore="@CalculateTotalScore()" />
+<KingdominoScoreList Registration="@_registration" TotalScore="@CalculateTotalScore()" OnScoreChanged="HandleScoreChanged" />
