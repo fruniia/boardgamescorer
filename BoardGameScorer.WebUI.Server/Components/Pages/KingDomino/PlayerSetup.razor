@@ -1,4 +1,5 @@
 ﻿@page "/queendomino/"
+@attribute [Authorize]
 @using BoardGameScorer.WebUI.Server.Components.Kingdomino
 @inject IGamesService<KingdominoPlayer> gameService
 @inject NavigationManager navigationManager

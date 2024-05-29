@@ -1,0 +1,26 @@
+﻿@page "/queendominosss/"
+@using BoardGameScorer.WebUI.Server.Components.Kingdomino
+@layout KingdominoLayout
+@inject UserService UserService
+@rendermode InteractiveServer
+
+<h3 class="mb-3">Setup the players for your game</h3>
+<p>Välkommen @Name!</p>
+
+@code {
+    EditContext _editContext { get; set; }
+    public string? Name { get; set; }
+    protected override void OnInitialized()
+    {
+        Name = UserService.Name;
+        base.OnInitialized();
+    }
+
+    //Skapa en User med id 1
+    //Skapa ett spel med id 1
+    //Skapa en playsession - hårdkoda 4
+    //Hämta alla spelare som har playsessionId 4
+    //Skriv ut alla spelare
+    //Kolla så att du kan uppdatera alla spelare
+    //Kolla vilken
+}

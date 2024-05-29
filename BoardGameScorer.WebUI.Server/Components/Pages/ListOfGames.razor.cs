@@ -6,6 +6,6 @@ public partial class ListOfGames
 	public IEnumerable<Game>? Games { get; set; }
 	protected async override Task OnInitializedAsync()
 	{
-		Games = await GameService!.GetAllGames();
+		Games = await GameService!.GetAllAsync();
 	}
 }
