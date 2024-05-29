@@ -1,45 +1,43 @@
 ﻿namespace BoardGameScorer.Infrastructure.Repositories;
 public class PlaySessionRepository(ApplicationDbContext context) : IEntityRepository<PlaySession>
 {
-	public async Task<PlaySession> AddAsync(PlaySession value)
-	{
-		var result = await context.PlaySessions.AddAsync(value);
-		await context.SaveChangesAsync();
-		return result.Entity;
-	}
+    public async Task AddAsync(PlaySession value)
+    {
+        if (value is null)
+        {
+            throw new ArgumentNullException(nameof(value), "User cannot be null");
+        }
+        await context.PlaySessions.AddAsync(value);
+        await context.SaveChangesAsync();
+    }
 
-	public async void DeleteAsync(int id)
-	{
-		var result = await context.PlaySessions.FirstOrDefaultAsync(p => p.Id == id);
-		if (result is not null)
-		{
-			context.PlaySessions.Remove(result);
-		}
-	}
+    public async Task DeleteAsync(int id)
+    {
+        var result = await context.PlaySessions.FindAsync(id);
+        if (result is not null)
+        {
+            context.PlaySessions.Remove(result);
+            context.SaveChanges();
+        }
+    }
 
-	public async Task<List<PlaySession>> GetAllAsync()
-	{
-		return await context.PlaySessions.ToListAsync();
-	}
+    public async Task<List<PlaySession>> GetAllAsync()
+    {
+        return await context.PlaySessions.ToListAsync();
+    }
 
-	public async Task<PlaySession> GetByIdAsync(int id)
-	{
-		var result = await context.PlaySessions.Where(p => p.Id == id).FirstOrDefaultAsync();
-		return result;
-	}
+    public async Task<PlaySession> GetByIdAsync(int id)
+    {
+        if (id <= 0)
+        {
+            throw new ArgumentException("ID must be greater than zero", nameof(id));
+        }
+        return await context.PlaySessions.FindAsync(id);
+    }
 
-	public async Task<PlaySession> UpdateAsync(PlaySession value)
-	{
-		var result = await context.PlaySessions.FirstOrDefaultAsync(p => p.Id == value.Id);
-		if (result is not null)
-		{
-			result.Players = value.Players;
-			result.UserId = value.UserId;
-			result.GameId = value.GameId;
-			await context.SaveChangesAsync();
-
-			return result;
-		}
-		return null;
-	}
+    public async Task UpdateAsync(PlaySession value)
+    {
+        context.PlaySessions.Update(value);
+        await context.SaveChangesAsync();
+    }
 }
