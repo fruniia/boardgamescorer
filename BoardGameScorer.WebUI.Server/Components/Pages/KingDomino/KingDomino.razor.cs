@@ -5,9 +5,12 @@ public partial class Kingdomino
 	[SupplyParameterFromForm]
 	public KingdominoScoreEntry? Model { get; set; }
 	private readonly List<KingdominoScoreEntry> _registration = [];
+	public TileManager? TileManager { get; set; }
+	bool canAddTile = false;
 
 	protected override void OnInitialized()
 	{
+		TileManager = new();
 		Model ??= new();
 		_editContext = new(Model);
 		base.OnInitialized();
@@ -21,9 +24,14 @@ public partial class Kingdomino
 		}
 		else
 		{
-			Model.TileScore = Model.CalculateTileScore();
-			Model.ScoreHistory.Add(Model.TileScore);
-			_registration.Add(Model);
+			canAddTile = TileManager!.AddTile(Model.Terrain, Model.Crowns, Model.Tiles);
+			if (canAddTile)
+			{
+				Model.TileScore = Model.CalculateTileScore();
+				Model.ScoreHistory.Add(Model.TileScore);
+				_registration.Add(Model);
+				canAddTile = !canAddTile;
+			}
 			Model = new KingdominoScoreEntry();
 			_editContext = new EditContext(Model);
 		}
