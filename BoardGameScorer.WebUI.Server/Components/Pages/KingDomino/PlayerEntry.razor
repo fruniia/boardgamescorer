@@ -8,12 +8,23 @@
 <Button Color="ButtonColor.Secondary" Outline="true" @onclick=@(() => GetPlayers(4))>Get players</Button>
 @if (Players is not null)
 {
-	<Card Class="mb-3">
+	<table Class="mb-3 table table-light table-striped">
+		<thead>
+			<tr>
+				<th scope="col"></th>
+				<th scope="col">Player Id</th>
+				<th scope="col">Name</th>
+				<th scope="col">Score</th>
+				<th scope="col">TotalScore</th>
+			</tr>
+		</thead>
+		<tbody>
 		@foreach (var player in Players)
 		{
-			<DisplayPlayer Player="player"></DisplayPlayer>
+			<DisplayPlayer Player="player"/>
 		}
-	</Card>
+		</tbody>
+	</table>
 	<br/>
 }
 @if (Players is null)

@@ -14,7 +14,12 @@ public partial class Kingdomino
 	}
 	private void HandleSubmit()
 	{
-		if (Model!.Tiles > 0)
+		if (Model!.Tiles < Model!.Crowns)
+		{
+			Model = new KingdominoScoreEntry();
+			_editContext = new EditContext(Model);
+		}
+		else
 		{
 			Model.TileScore = Model.CalculateTileScore();
 			Model.ScoreHistory.Add(Model.TileScore);
