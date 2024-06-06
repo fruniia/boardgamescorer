@@ -36,11 +36,12 @@
 		</InputSelect>
 		<ValidationMessage For="@(() => Model!.Crowns)" />
 	</div>
-	<Button Type="ButtonType.Submit" Color="ButtonColor.Secondary" Outline="true">
+	<Button Type=ButtonType.Submit Color="ButtonColor.Secondary" Outline="true">
 		Confirm
 	</Button>
 </EditForm>
-@(!string.IsNullOrEmpty(Message)){
+@if (!string.IsNullOrEmpty(Message))
+{
 	<Callout Type="CalloutType.Info" HideHeading="true">@Message</Callout>
 }
 
