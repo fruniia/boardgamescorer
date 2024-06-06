@@ -48,7 +48,7 @@
 	public PlaySession? PlaySession { get; set; }
 	public List<Player>? Players { get; set; }
 
-	protected override async void OnInitialized()
+	protected override void OnInitialized()
 	{
 		Name = UserService!.Name;
 		base.OnInitialized();

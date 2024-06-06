@@ -1,9 +1,9 @@
 ﻿namespace BoardGameScorer.Domain.Models;
 public class TileManager
 {
-	private Dictionary<Terrain, int> _terrainCounts;
-	private Dictionary<Terrain, int> _crownCounts;
-	private Dictionary<Terrain, int> _maxTilesPerTerrain;
+	private readonly Dictionary<Terrain, int> _terrainCounts;
+	private readonly Dictionary<Terrain, int> _crownCounts;
+	private readonly Dictionary<Terrain, int> _maxTilesPerTerrain;
 	public TileManager()
 	{
 		_terrainCounts = [];
@@ -21,13 +21,14 @@ public class TileManager
 
 	public bool AddTile(Terrain terrain, int crowns, int tiles)
 	{
-		if (!_terrainCounts.ContainsKey(terrain))
+		if (!_terrainCounts.TryGetValue(terrain, out int value))
 		{
-			_terrainCounts[terrain] = 0;
+			value = 0;
+			_terrainCounts[terrain] = value;
 			_crownCounts[terrain] = 0;
 		}
 
-		int newTerrainCount = _terrainCounts[terrain] + tiles;
+		int newTerrainCount = value + tiles;
 
 		if (newTerrainCount > _maxTilesPerTerrain[terrain])
 		{

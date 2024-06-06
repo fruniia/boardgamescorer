@@ -6,7 +6,8 @@ public partial class Kingdomino
 	public KingdominoScoreEntry? Model { get; set; }
 	private readonly List<KingdominoScoreEntry> _registration = [];
 	public TileManager? TileManager { get; set; }
-	bool canAddTile = false;
+	private bool _canAddTile = false;
+
 
 	protected override void OnInitialized()
 	{
@@ -19,22 +20,30 @@ public partial class Kingdomino
 	{
 		if (Model!.Tiles < Model!.Crowns)
 		{
-			Model = new KingdominoScoreEntry();
-			_editContext = new EditContext(Model);
+			ResetModel();
 		}
 		else
 		{
-			canAddTile = TileManager!.AddTile(Model.Terrain, Model.Crowns, Model.Tiles);
-			if (canAddTile)
+			_canAddTile = TileManager!.AddTile(Model.Terrain, Model.Crowns, Model.Tiles);
+			if (_canAddTile)
 			{
-				Model.TileScore = Model.CalculateTileScore();
-				Model.ScoreHistory.Add(Model.TileScore);
-				_registration.Add(Model);
-				canAddTile = !canAddTile;
+				UpdateModel();
 			}
-			Model = new KingdominoScoreEntry();
-			_editContext = new EditContext(Model);
+			ResetModel();
 		}
+	}
+	private void ResetModel()
+	{
+		Model = new();
+		_editContext = new(Model);
+		_message = string.Empty;
+	}
+	private void UpdateModel()
+	{
+		Model!.TileScore = Model.CalculateTileScore();
+		Model.ScoreHistory.Add(Model.TileScore);
+		_registration.Add(Model);
+		_canAddTile = true;
 	}
 	private int CalculateTotalScore()
 	{
