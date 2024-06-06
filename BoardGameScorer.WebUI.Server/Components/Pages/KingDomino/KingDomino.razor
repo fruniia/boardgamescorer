@@ -40,9 +40,8 @@
 		Confirm
 	</Button>
 </EditForm>
-@if (Model!.Tiles < Model.Crowns)
-{
-	<p>@nameof(Model.Tiles) must be equal or greater than @nameof(Model.Crowns)</p>
+@(!string.IsNullOrEmpty(Message)){
+	<Callout Type="CalloutType.Info" HideHeading="true">@Message</Callout>
 }
 
 <KingdominoScoreList Registration="@_registration" TotalScore="@CalculateTotalScore()" />

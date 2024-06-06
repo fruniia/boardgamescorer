@@ -1,5 +1,4 @@
-﻿global using BoardGameScorer.Application.Interfaces;
-global using BoardGameScorer.Application.Services.Kingdomino;
+﻿global using BoardGameScorer.Application.Services.Kingdomino;
 global using BoardGameScorer.Domain.Entities;
 global using BoardGameScorer.Domain.Models;
 global using BoardGameScorer.Infrastructure.Data;

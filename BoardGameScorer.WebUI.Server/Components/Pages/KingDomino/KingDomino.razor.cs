@@ -7,7 +7,7 @@ public partial class Kingdomino
 	private readonly List<KingdominoScoreEntry> _registration = [];
 	public TileManager? TileManager { get; set; }
 	private bool _canAddTile = false;
-
+	public string Message { get; set; } = string.Empty;
 
 	protected override void OnInitialized()
 	{
@@ -20,6 +20,7 @@ public partial class Kingdomino
 	{
 		if (Model!.Tiles < Model!.Crowns)
 		{
+			Message = "Number of tiles cannot be less than number of crowns";
 			ResetModel();
 		}
 		else
@@ -28,6 +29,11 @@ public partial class Kingdomino
 			if (_canAddTile)
 			{
 				UpdateModel();
+				Message = "Added to your score";
+			}
+			else
+			{
+				Message = $"The number of {Model.Terrain} tiles has been exceeded";
 			}
 			ResetModel();
 		}
