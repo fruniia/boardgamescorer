@@ -36,7 +36,6 @@ public partial class Kingdomino
 	{
 		Model = new();
 		_editContext = new(Model);
-		_message = string.Empty;
 	}
 	private void UpdateModel()
 	{
